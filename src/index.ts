@@ -1,5 +1,5 @@
 import type { Context } from 'koishi'
-import { Argv, Schema } from 'koishi'
+import { Argv, h, Schema } from 'koishi'
 
 export const name = 'parrot'
 
@@ -7,10 +7,9 @@ export interface Config {}
 export const Config: Schema<Config> = Schema.object({})
 
 export function apply(ctx: Context) {
-  ctx.middleware((session, next) => next(async () => {
+  ctx.middleware(async (session) => {
     const content = session.content || ''
     const argv = Argv.parse(content)
-
     for (const arg of argv.tokens || []) {
       const { inters } = arg
       const output: string[] = []
@@ -26,6 +25,6 @@ export function apply(ctx: Context) {
       arg.inters = []
     }
 
-    return Argv.stringify(argv)
-  }))
+    return h.parse(Argv.stringify(argv))
+  })
 }

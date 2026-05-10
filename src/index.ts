@@ -13,7 +13,9 @@ export const Config: Schema<Config> = Schema.object({
 export function apply(ctx: Context, config: Config) {
   ctx.middleware((session, next) => next(() => {
     return session.execute(Object.assign(
-      Argv.parse(session.content || ''),
+      Argv.parse(session.elements
+        ?.filter(element => element.type === 'text')
+        ?.join('') || ''),
       config,
     ))
   }))

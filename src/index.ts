@@ -7,7 +7,7 @@ export interface Config {}
 export const Config: Schema<Config> = Schema.object({})
 
 export function apply(ctx: Context) {
-  ctx.middleware(async (session) => {
+  ctx.middleware(async (session, next) => next(async () => {
     const content = session.content || ''
     const argv = Argv.parse(content)
     for (const arg of argv.tokens || []) {
@@ -24,7 +24,6 @@ export function apply(ctx: Context) {
       }
       arg.inters = []
     }
-
     return h.parse(Argv.stringify(argv))
-  })
+  }))
 }

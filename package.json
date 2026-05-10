@@ -15,7 +15,6 @@
     "lib"
   ],
   "peerDependencies": {
-    "koishi": "^4.18.7",
-    "koishi-plugin-echo": "*"
+    "koishi": "^4.18.7"
   }
 }

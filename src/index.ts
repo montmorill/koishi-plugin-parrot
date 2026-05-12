@@ -11,12 +11,9 @@ export const Config: Schema<Config> = Schema.object({
 })
 
 export function apply(ctx: Context, config: Config) {
-  ctx.middleware((session, next) => next(() => {
-    return session.execute(Object.assign(
-      Argv.parse(session.elements
-        ?.filter(element => element.type === 'text')
-        ?.join('') || ''),
-      config,
-    ))
+  ctx.middleware((session, next) => next(async () => {
+    const content = session.content || ''
+    const argv = Object.assign(Argv.parse(content), config)
+    return await session.execute(argv, true)
   }))
 }

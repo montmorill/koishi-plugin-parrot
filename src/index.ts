@@ -13,7 +13,8 @@ export const Config: Schema<Config> = Schema.object({
 export function apply(ctx: Context, config: Config) {
   ctx.middleware((session, next) => next(async () => {
     const content = session.content || ''
-    const argv = Object.assign(Argv.parse(content), config)
-    return await session.execute(argv, true)
+    const argv = Argv.parse(content)
+    Object.assign(argv, config)
+    await session.execute(argv)
   }))
 }

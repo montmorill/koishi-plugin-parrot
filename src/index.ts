@@ -12,6 +12,8 @@ export const Config: Schema<Config> = Schema.object({
 
 export function apply(ctx: Context, config: Config) {
   ctx.middleware((session, next) => next(async () => {
+    if (session.event._data?.t === 'GROUP_MESSAGE_CREATE')
+      return
     const content = session.content || ''
     const argv = Argv.parse(content)
     Object.assign(argv, config)

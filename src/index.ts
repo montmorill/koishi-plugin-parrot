@@ -14,7 +14,7 @@ export const Config: Schema<Config> = Schema.object({
 
 export function apply(ctx: Context, config: Config) {
   ctx.middleware((session, next) => next(async () => {
-    if (session.stripped.atSelf || Math.random() > config.probability) {
+    if (session.stripped.atSelf || Math.random() < config.probability) {
       const content = session.content || ''
       const argv = Argv.parse(content)
       Object.assign(argv, config)

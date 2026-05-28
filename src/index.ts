@@ -8,8 +8,8 @@ export interface Config {
   probability: number
 }
 export const Config: Schema<Config> = Schema.object({
-  name: Schema.string().default('echo').description('执行命令。'),
-  probability: Schema.number().default(0.05).description('复读的概率。'),
+  name: Schema.string().default('echo').description('执行命令'),
+  probability: Schema.number().default(0.05).description('复读的概率'),
 })
 
 export function apply(ctx: Context, config: Config) {
